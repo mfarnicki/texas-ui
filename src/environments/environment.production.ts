@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseApiUrl: 'https://localhost:7128',
+  baseApiUrl: 'https://texas-api-development.azurewebsites.net',
 };
