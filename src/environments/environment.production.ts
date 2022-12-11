@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseApiUrl: 'https://texas-api-development.azurewebsites.net',
+  baseApiUrl: 'https://texas-test-webapi.azurewebsites.net',
 };
