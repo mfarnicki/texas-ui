@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Employees.UI": {
+    "TexasUI": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/employees.ui",
+            "outputPath": "dist/texas.ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Employees.UI:build:production"
+              "browserTarget": "TexasUI:build:production"
             },
             "development": {
-              "browserTarget": "Employees.UI:build:development"
+              "browserTarget": "TexasUI:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -70,7 +70,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Employees.UI:build"
+            "browserTarget": "TexasUI:build"
           }
         },
         "test": {
