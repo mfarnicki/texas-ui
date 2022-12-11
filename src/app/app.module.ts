@@ -4,19 +4,18 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EmployeesListComponent } from './components/employees-list/employees-list.component';
 import { HeaderComponent } from './components/header/header.component';
-import { EmployeeAddComponent } from './components/employee-add/employee-add.component';
-import { FormsModule } from '@angular/forms';
+import { GamesListComponent } from './components/games-list/games-list.component';
+import { GameCardComponent } from './components/game-card/game-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeesListComponent,
     HeaderComponent,
-    EmployeeAddComponent,
+    GamesListComponent,
+    GameCardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })

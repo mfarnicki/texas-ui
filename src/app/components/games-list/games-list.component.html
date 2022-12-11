@@ -1,0 +1,22 @@
+<div class="container my-5">
+  <h1 class="mb-3">Games list</h1>
+  <table class="table" *ngIf="gamesList && gamesList.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let game of gamesList">
+        <td>{{ game.id }}</td>
+        <td>
+          <a class="link-danger" (click)="deleteGame(game.id)">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="gamesList && gamesList.length === 0">No games found</p>
+</div>
