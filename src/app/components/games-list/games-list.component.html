@@ -10,7 +10,9 @@
 
     <tbody>
       <tr *ngFor="let game of gamesList">
-        <td>{{ game.id }}</td>
+        <td>
+          <a [routerLink]="['/games', game.id]">{{ game.id }}</a>
+        </td>
         <td>
           <a class="link-danger" (click)="deleteGame(game.id)">Delete</a>
         </td>
@@ -19,4 +21,5 @@
   </table>
 
   <p *ngIf="gamesList && gamesList.length === 0">No games found</p>
+  <button class="btn btn-primary" (click)="addNewGame()">Add new game</button>
 </div>

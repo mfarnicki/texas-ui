@@ -6,14 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { GamesListComponent } from './components/games-list/games-list.component';
-import { GameCardComponent } from './components/game-card/game-card.component';
+import { GamePageComponent } from './components/game-card/game-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     GamesListComponent,
-    GameCardComponent,
+    GamePageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
