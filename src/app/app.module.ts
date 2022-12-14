@@ -6,7 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { GamesListComponent } from './components/games-list/games-list.component';
-import { GamePageComponent } from './components/game-card/game-page.component';
+import { GamePageComponent } from './components/game-page/game-page.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { GamesManagerService } from './services/games-manager.service';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,7 @@ import { GamePageComponent } from './components/game-card/game-page.component';
     HeaderComponent,
     GamesListComponent,
     GamePageComponent,
+    AlertComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
