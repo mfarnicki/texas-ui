@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Game } from 'src/app/models/game.model';
 import { GamesManagerService } from 'src/app/services/games-manager.service';
 import { GamesService } from 'src/app/services/games.service';
+import { AppState } from 'src/app/store/games.state';
 
 @Component({
   selector: 'app-game-page',
@@ -18,7 +20,8 @@ export class GamePageComponent implements OnInit, OnDestroy {
   constructor(
     private gamesService: GamesService,
     private activatedRoute: ActivatedRoute,
-    private gamesManager: GamesManagerService
+    private gamesManager: GamesManagerService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -32,10 +35,11 @@ export class GamePageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.add(
-      this.gamesManager.errors$.subscribe((err) => (this.error = err))
-    );
-    this.subscriptions.add(
-      this.gamesManager.gameState$.subscribe((state) => console.log(state))
+      this.store.select('gameState').subscribe((state) => {
+        console.log(state);
+        this.game = state.currentGame;
+        this.error = state.error;
+      })
     );
   }
 

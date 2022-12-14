@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { GamesListComponent } from './components/games-list/games-list.component';
 import { GamePageComponent } from './components/game-page/game-page.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducerMap } from './store/games.state';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,12 @@ import { GamePageComponent } from './components/game-page/game-page.component';
     GamesListComponent,
     GamePageComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    StoreModule.forRoot(appReducerMap),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
