@@ -1,3 +1,3 @@
 export interface Player {
-  connectionId: string;
+  playerId: string;
 }

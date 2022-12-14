@@ -32,4 +32,12 @@ export class GamesManagerService {
   joinGame(gameId: string, playerNo: number) {
     this.connection?.send('JoinGame', gameId, playerNo);
   }
+
+  leaveGame() {
+    this.connection?.send('LeaveGame');
+  }
+
+  startGame(gameId: string) {
+    this.connection?.send('StartGame', gameId);
+  }
 }
