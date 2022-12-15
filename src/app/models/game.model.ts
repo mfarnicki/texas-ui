@@ -2,8 +2,8 @@ import { Player } from './player.model';
 
 export interface Game {
   id: string;
-  player1: Player;
-  player2: Player;
+  player1?: Player;
+  player2?: Player;
   status: GameStatus;
 }
 

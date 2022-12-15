@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { catchError, take, tap } from 'rxjs';
 import { Game } from 'src/app/models/game.model';
 import { GamesService } from 'src/app/services/games.service';
 
@@ -9,23 +9,18 @@ import { GamesService } from 'src/app/services/games.service';
   templateUrl: './games-list.component.html',
   styleUrls: ['./games-list.component.css'],
 })
-export class GamesListComponent implements OnInit, OnDestroy {
-  gamesList?: Game[];
-  private subscription: Subscription = Subscription.EMPTY;
+export class GamesListComponent implements OnInit {
+  gamesList?: Game[][];
 
   constructor(private gamesService: GamesService, private router: Router) {}
 
   ngOnInit(): void {
-    this.subscription = this.gamesService
+    this.gamesService
       .getAllGames()
+      .pipe(take(1))
       .subscribe((response) => {
-        this.gamesList = response;
+        this.gamesList = this.gamesArray(response);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.subscription = Subscription.EMPTY;
   }
 
   addNewGame(): void {
@@ -37,8 +32,21 @@ export class GamesListComponent implements OnInit, OnDestroy {
   deleteGame(id?: string): void {
     if (id) {
       this.gamesService.deleteGame(id).subscribe((_) => {
-        this.gamesList = this.gamesList?.filter((e) => e.id !== id);
+        this.gamesList?.forEach(
+          (array) => (array = array.filter((e) => e.id != id))
+        );
       });
     }
+  }
+
+  gamesArray(games: Game[] | undefined): Game[][] {
+    let array: Game[][] = [];
+    if (games) {
+      while (games.length > 0) {
+        array.push(games.splice(4));
+      }
+    }
+
+    return array;
   }
 }

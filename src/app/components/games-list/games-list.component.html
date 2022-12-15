@@ -1,24 +1,14 @@
 <div class="container my-5">
   <h1 class="mb-3">Games list</h1>
-  <table class="table" *ngIf="gamesList && gamesList.length > 0">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th></th>
-      </tr>
-    </thead>
 
-    <tbody>
-      <tr *ngFor="let game of gamesList">
-        <td>
-          <a [routerLink]="['/games', game.id]">{{ game.id }}</a>
-        </td>
-        <td>
-          <a class="link-danger" (click)="deleteGame(game.id)">Delete</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="gamesList && gamesList.length>0">
+    <div class="row" *ngFor="let gamesArray of gamesList">
+      <div class="col-sm-3" *ngFor="let game of gamesArray">
+        <a [routerLink]="['/games', game.id]">{{ game.id }}</a>
+        <a class="link-danger" (click)="deleteGame(game.id)">Delete</a>
+      </div>
+    </div>
+  </div>
 
   <p *ngIf="gamesList && gamesList.length === 0">No games found</p>
   <button class="btn btn-primary" (click)="addNewGame()">Add new game</button>
