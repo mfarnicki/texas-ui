@@ -1,0 +1,8 @@
+<div class="card" *ngIf="game">
+  <div class="card-body">
+    <h5 class="card-title">{{ game.id }}</h5>
+    <p class="card-text">Game description.</p>
+    <a [routerLink]="['/games', game.id]" class="btn btn-primary">Join game</a>
+    <a class="btn btn-danger" (click)="deleteGame(game.id)">Delete game</a>
+  </div>
+</div>

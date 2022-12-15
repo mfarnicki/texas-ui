@@ -9,6 +9,9 @@ import { GamesListComponent } from './components/games-list/games-list.component
 import { GamePageComponent } from './components/game-page/game-page.component';
 import { StoreModule } from '@ngrx/store';
 import { appReducerMap } from './store/games.state';
+import { GameCardComponent } from './components/game-card/game-card.component';
+import { DeckCardComponent } from './components/deck-card/deck-card.component';
+import { PlayerCardComponent } from './components/player-card/player-card.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,9 @@ import { appReducerMap } from './store/games.state';
     HeaderComponent,
     GamesListComponent,
     GamePageComponent,
+    GameCardComponent,
+    DeckCardComponent,
+    PlayerCardComponent,
   ],
   imports: [
     BrowserModule,

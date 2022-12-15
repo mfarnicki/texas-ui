@@ -34,8 +34,12 @@ export class GamesManagerService {
       });
   }
 
-  joinGame(gameId: string, playerNo: number) {
-    this.connection?.send('JoinGame', gameId, playerNo);
+  initGame(gameId: string) {
+    this.connection?.send('InitGame', gameId);
+  }
+
+  joinGame(gameId: string, playerPosition: number, playerName: string) {
+    this.connection?.send('JoinGame', gameId, playerPosition, playerName);
   }
 
   leaveGame() {

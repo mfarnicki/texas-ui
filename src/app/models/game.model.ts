@@ -1,10 +1,11 @@
+import { Card } from './card.model';
 import { Player } from './player.model';
 
 export interface Game {
   id: string;
-  player1?: Player;
-  player2?: Player;
+  players: Player[];
   status: GameStatus;
+  deck: Card[];
 }
 
 export enum GameStatus {

@@ -20,6 +20,7 @@ export function gamesReducer(
       return {
         ...state,
         currentGame: action.payload,
+        error: undefined,
       };
 
     case RESET_GAME:

@@ -1,18 +1,64 @@
 <div class="container my-5">
   <h1 class="mb-3">Game number {{ game?.id }}</h1>
+
+  <div class="row">
+    <div class="form-container col-3 my-2">
+      <label for="playerName" class="form-label">Player name:</label>
+      <input
+        #playerName
+        class="form-control"
+        type="text"
+        name="playerName"
+        id="playerName"
+      />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <app-player-card
+        [position]="0"
+        [player]="game?.players?.[0]"
+        (joinEvent)="joinGame(0)"
+      ></app-player-card>
+    </div>
+    <div class="col-6">
+      <app-player-card
+        [position]="1"
+        [player]="game?.players?.[1]"
+        (joinEvent)="joinGame(1)"
+      ></app-player-card>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-12">
-      <button class="btn btn-primary" (click)="joinGame(1)">
-        Join as Player 1
-      </button>
-      <button class="btn btn-primary" (click)="joinGame(2)">
-        Join as Player 2
-      </button>
+      <h1>Dealer box</h1>
+
       <button class="btn btn-success" (click)="startGame()">Start game</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <app-player-card
+        [position]="2"
+        [player]="game?.players?.[2]"
+        (joinEvent)="joinGame(2)"
+      ></app-player-card>
+    </div>
+    <div class="col-6">
+      <app-player-card
+        [position]="3"
+        [player]="game?.players?.[3]"
+        (joinEvent)="joinGame(3)"
+      ></app-player-card>
     </div>
   </div>
 
   <div class="alert alert-danger" role="alert" *ngIf="error">
     {{ error }}
   </div>
+
+  <app-deck-card *ngFor="let card of game?.deck" [card]="card"></app-deck-card>
 </div>

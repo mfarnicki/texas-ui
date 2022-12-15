@@ -13,7 +13,7 @@ const routes: Routes = [
     component: GamesListComponent,
   },
   {
-    path: 'games/:id',
+    path: 'games/:gameId',
     component: GamePageComponent,
   },
 ];

@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -15,6 +21,7 @@ import { AppState } from 'src/app/store/games.state';
 export class GamePageComponent implements OnInit, OnDestroy {
   game?: Game;
   error?: string;
+  @ViewChild('playerName') playerNameInput!: ElementRef;
   subscriptions: Subscription = Subscription.EMPTY;
 
   constructor(
@@ -25,20 +32,20 @@ export class GamePageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions = this.activatedRoute.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.gamesService
-          .getGame(id)
-          .subscribe((result) => (this.game = result));
-      }
-    });
-
-    this.subscriptions.add(
-      this.store.select('gameState').subscribe((state) => {
+    this.subscriptions = this.subscriptions = this.store
+      .select('gameState')
+      .subscribe((state) => {
         console.log(state);
         this.game = state.currentGame;
         this.error = state.error;
+      });
+
+    this.subscriptions.add(
+      this.activatedRoute.paramMap.subscribe((params) => {
+        const gameId = params.get('gameId');
+        if (gameId) {
+          this.gamesManager.initGame(gameId);
+        }
       })
     );
   }
@@ -48,11 +55,13 @@ export class GamePageComponent implements OnInit, OnDestroy {
     this.gamesManager.leaveGame();
   }
 
-  joinGame(playerNo: number): void {
-    if (this.game) this.gamesManager.joinGame(this.game?.id, playerNo);
+  joinGame(playerPosition: number): void {
+    const playerName = this.playerNameInput.nativeElement.value;
+    if (this.game && playerName)
+      this.gamesManager.joinGame(this.game.id, playerPosition, playerName);
   }
 
   startGame(): void {
-    if (this.game) this.gamesManager.startGame(this.game?.id);
+    if (this.game) this.gamesManager.startGame(this.game.id);
   }
 }
