@@ -1,7 +1,7 @@
 <div
-  class="border rounded deck-card d-inline-flex flex-column align-items-center justify-content-center m-1"
+  class="border rounded deck-card d-inline-flex flex-column justify-content-between m-1"
   [ngStyle]="{ color: cardColor }"
 >
-  <span>{{ cardValue }}</span>
-  <span [innerHTML]="cardSuit"></span>
+  <span [innerHTML]="cardSuit" class="align-self-start suit"></span>
+  <span class="align-self-end value">{{ cardValue }}</span>
 </div>

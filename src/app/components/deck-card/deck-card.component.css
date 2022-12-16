@@ -1,10 +1,15 @@
 div.deck-card {
-  display: inline-block;
   width: 80px;
   height: 100px;
 }
 
-div.deck-card span {
-  font-size: 2.5rem;
-  margin: -10px;
+div.deck-card span.suit {
+  font-size: 3rem;
+  line-height: 0.6;
+}
+
+div.deck-card span.value {
+  font-size: 3.5rem;
+  font-weight: bold;
+  line-height: 1.5;
 }
