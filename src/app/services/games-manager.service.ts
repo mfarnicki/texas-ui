@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnectionState } from '@microsoft/signalr/dist/esm/HubConnection';
 import { Store } from '@ngrx/store';
-import { SignalrClient } from 'ngx-signalr-websocket';
-import { SignalrConnection } from 'ngx-signalr-websocket/lib';
+import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Game } from '../models/game.model';
 import * as GamesActions from '../store/games.action';
@@ -12,41 +12,73 @@ import { AppState } from '../store/games.state';
   providedIn: 'root',
 })
 export class GamesManagerService {
-  private connection?: SignalrConnection;
+  private hubConnection: HubConnection;
+  public allGames$ = new Subject<Game[]>();
 
-  constructor(private httpClient: HttpClient, private store: Store<AppState>) {
-    const client = SignalrClient.create(httpClient);
-    client
-      .connect(`${environment.baseApiUrl}/gameHub`)
-      .subscribe((connection) => {
-        this.connection = connection;
-        this.connection
-          .on<string[]>('Error')
-          .subscribe((errors) =>
-            this.store.dispatch(new GamesActions.SetError(errors[0]))
-          );
+  constructor(private store: Store<AppState>) {
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(`${environment.baseApiUrl}/gameHub`)
+      .build();
+  }
 
-        this.connection
-          .on<[Game]>('GameState')
-          .subscribe((state) =>
-            this.store.dispatch(new GamesActions.UpdateGame(state[0]))
-          );
-      });
+  public startConnection() {
+    return new Promise((resolve, reject) => {
+      if (this.hubConnection.state === HubConnectionState.Connected) {
+        return resolve(void 0);
+      }
+
+      this.hubConnection
+        .start()
+        .then(() => {
+          console.log('SignalR connected!');
+          return resolve(void 0);
+        })
+        .catch((err: any) => {
+          console.log('SignalR connecting, error occured: ' + err);
+          reject(err);
+        });
+    });
+  }
+
+  public subscribeListeners() {
+    this.hubConnection.on('Error', (errors: string[]) =>
+      this.store.dispatch(new GamesActions.SetError(errors[0]))
+    );
+
+    this.hubConnection.on('GameState', (state: Game[]) =>
+      this.store.dispatch(new GamesActions.UpdateGame(state[0]))
+    );
+
+    this.hubConnection.on('AllGames', (games: Game[]) => {
+      this.allGames$.next(games);
+    });
+  }
+
+  newGame() {
+    this.hubConnection.send('NewGame');
+  }
+
+  listGames() {
+    this.hubConnection.send('ListGames');
+  }
+
+  deleteGame(gameId: string) {
+    this.hubConnection.send('DeleteGame', gameId);
   }
 
   initGame(gameId: string) {
-    this.connection?.send('InitGame', gameId);
+    this.hubConnection.send('InitGame', gameId);
   }
 
   joinGame(gameId: string, playerPosition: number, playerName: string) {
-    this.connection?.send('JoinGame', gameId, playerPosition, playerName);
+    this.hubConnection.send('JoinGame', gameId, playerPosition, playerName);
   }
 
   leaveGame() {
-    this.connection?.send('LeaveGame');
+    this.hubConnection.send('LeaveGame');
   }
 
   startGame(gameId: string) {
-    this.connection?.send('StartGame', gameId);
+    this.hubConnection.send('StartGame', gameId);
   }
 }

@@ -6,7 +6,8 @@ import { GamesListComponent } from './components/games-list/games-list.component
 const routes: Routes = [
   {
     path: '',
-    component: GamesListComponent,
+    redirectTo: '/games',
+    pathMatch: 'full',
   },
   {
     path: 'games',

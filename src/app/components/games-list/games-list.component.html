@@ -1,8 +1,8 @@
 <div class="container my-5">
   <h1 class="mb-3">Games list</h1>
 
-  <div class="row" *ngIf="games.length > 0">
-    <div class="col-sm-4 mb-3" *ngFor="let game of games">
+  <div class="row" *ngIf="gamesList.length > 0">
+    <div class="col-sm-4 mb-3" *ngFor="let game of gamesList">
       <app-game-card
         [game]="game"
         (deleteEvent)="deleteGame($event)"
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <p *ngIf="games && games.length === 0">No games found</p>
+  <p *ngIf="gamesList.length === 0">No games found</p>
 
   <div class="row mt-3">
     <div class="col-12">

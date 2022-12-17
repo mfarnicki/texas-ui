@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
 import { Game } from 'src/app/models/game.model';
-import { GamesService } from 'src/app/services/games.service';
+import { GamesManagerService } from 'src/app/services/games-manager.service';
 
 @Component({
   selector: 'app-games-list',
@@ -10,26 +9,24 @@ import { GamesService } from 'src/app/services/games.service';
   styleUrls: ['./games-list.component.css'],
 })
 export class GamesListComponent implements OnInit {
-  games: Game[] = [];
+  gamesList: Game[] = [];
 
-  constructor(private gamesService: GamesService, private router: Router) {}
+  constructor(private gamesManager: GamesManagerService) {
+    this.gamesManager.allGames$.subscribe((games) => (this.gamesList = games));
+  }
 
   ngOnInit(): void {
-    this.gamesService
-      .getAllGames()
-      .pipe(take(1))
-      .subscribe((response) => {
-        this.games = response;
-      });
+    this.gamesManager.startConnection().then(() => {
+      this.gamesManager.subscribeListeners();
+      this.gamesManager.listGames();
+    });
   }
 
   addNewGame(): void {
-    this.gamesService.addGame().subscribe((result) => this.games?.push(result));
+    this.gamesManager.newGame();
   }
 
-  deleteGame(id: string): void {
-    this.gamesService.deleteGame(id).subscribe((_) => {
-      this.games = this.games?.filter((e) => e.id !== id);
-    });
+  deleteGame(gameId: string): void {
+    this.gamesManager.deleteGame(gameId);
   }
 }

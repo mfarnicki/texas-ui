@@ -7,7 +7,7 @@ import { Game } from '../models/game.model';
 @Injectable({
   providedIn: 'root',
 })
-export class GamesService {
+class GamesService {
   private baseApiUrl: string = environment.baseApiUrl;
 
   constructor(private http: HttpClient) {}

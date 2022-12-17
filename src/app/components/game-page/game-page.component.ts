@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Game } from 'src/app/models/game.model';
 import { GamesManagerService } from 'src/app/services/games-manager.service';
-import { GamesService } from 'src/app/services/games.service';
+// import { GamesService } from 'src/app/services/games.service';
 import { AppState } from 'src/app/store/games.state';
 
 @Component({
@@ -25,7 +25,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = Subscription.EMPTY;
 
   constructor(
-    private gamesService: GamesService,
+    // private gamesService: GamesService,
     private activatedRoute: ActivatedRoute,
     private gamesManager: GamesManagerService,
     private store: Store<AppState>
