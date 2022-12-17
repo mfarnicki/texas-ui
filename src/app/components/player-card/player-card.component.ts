@@ -1,21 +1,28 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { PlayerHole } from 'src/app/models/player-hole';
 import { Player } from 'src/app/models/player.model';
 
 @Component({
-  selector: 'app-player-card[position]',
+  selector: 'app-player-card',
   templateUrl: './player-card.component.html',
   styleUrls: ['./player-card.component.css'],
 })
 export class PlayerCardComponent {
-  @Input() position!: number;
-  @Input() player?: Player;
-  @Output() joinEvent = new EventEmitter();
+  @Input() playerInfo!: {
+    player?: Player;
+    playerHole?: PlayerHole;
+    position: number;
+  };
+  @Output() addPlayerEvent = new EventEmitter();
 
   get playerName(): string {
-    return this.player?.playerName || `[PLAYER ${this.position + 1}]`;
+    return (
+      this.playerInfo?.player?.playerName ||
+      `[PLAYER ${this.playerInfo.position + 1}]`
+    );
   }
 
-  join() {
-    this.joinEvent.emit();
+  addPlayer() {
+    this.addPlayerEvent.emit();
   }
 }

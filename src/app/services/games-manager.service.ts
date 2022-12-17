@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { HubConnectionState } from '@microsoft/signalr/dist/esm/HubConnection';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Game } from '../models/game.model';
+import { PlayerHole } from '../models/player-hole';
 import * as GamesActions from '../store/games.action';
 import { AppState } from '../store/games.state';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class GamesManagerService {
   private hubConnection: HubConnection;
   public allGames$ = new Subject<Game[]>();
@@ -21,17 +19,13 @@ export class GamesManagerService {
       .build();
   }
 
-  public startConnection() {
+  public startConnection(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      if (this.hubConnection.state === HubConnectionState.Connected) {
-        return resolve(void 0);
-      }
-
       this.hubConnection
         .start()
         .then(() => {
           console.log('SignalR connected!');
-          return resolve(void 0);
+          return resolve(true);
         })
         .catch((err: any) => {
           console.log('SignalR connecting, error occured: ' + err);
@@ -41,13 +35,17 @@ export class GamesManagerService {
   }
 
   public subscribeListeners() {
-    this.hubConnection.on('Error', (errors: string[]) =>
-      this.store.dispatch(new GamesActions.SetError(errors[0]))
+    this.hubConnection.on('Error', (error: string) =>
+      this.store.dispatch(new GamesActions.SetError(error))
     );
 
-    this.hubConnection.on('GameState', (state: Game[]) =>
-      this.store.dispatch(new GamesActions.UpdateGame(state[0]))
-    );
+    this.hubConnection.on('GameState', (state: Game) => {
+      this.store.dispatch(new GamesActions.UpdateGame(state));
+    });
+
+    this.hubConnection.on('PlayerState', (state: PlayerHole[]) => {
+      this.store.dispatch(new GamesActions.UpdatePlayer(state));
+    });
 
     this.hubConnection.on('AllGames', (games: Game[]) => {
       this.allGames$.next(games);
@@ -66,12 +64,12 @@ export class GamesManagerService {
     this.hubConnection.send('DeleteGame', gameId);
   }
 
-  initGame(gameId: string) {
-    this.hubConnection.send('InitGame', gameId);
+  joinGame(gameId: string) {
+    this.hubConnection.send('JoinGame', gameId);
   }
 
-  joinGame(gameId: string, playerPosition: number, playerName: string) {
-    this.hubConnection.send('JoinGame', gameId, playerPosition, playerName);
+  addPlayer(gameId: string, playerPosition: number, playerName: string) {
+    this.hubConnection.send('AddPlayer', gameId, playerPosition, playerName);
   }
 
   leaveGame() {
@@ -80,5 +78,13 @@ export class GamesManagerService {
 
   startGame(gameId: string) {
     this.hubConnection.send('StartGame', gameId);
+  }
+
+  progressGame(gameId: string) {
+    this.hubConnection.send('ProgressGame', gameId);
+  }
+
+  restartGame(gameId: string) {
+    this.hubConnection.send('RestartGame', gameId);
   }
 }

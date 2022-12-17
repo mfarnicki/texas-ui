@@ -5,7 +5,7 @@ export interface Game {
   id: string;
   players: Player[];
   status: GameStatus;
-  communityCard: Card[];
+  communityCards: Card[];
 }
 
 export enum GameStatus {

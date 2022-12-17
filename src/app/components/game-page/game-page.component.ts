@@ -9,9 +9,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Game } from 'src/app/models/game.model';
+import { PlayerHole } from 'src/app/models/player-hole';
+import { Player } from 'src/app/models/player.model';
 import { GamesManagerService } from 'src/app/services/games-manager.service';
-// import { GamesService } from 'src/app/services/games.service';
-import { AppState } from 'src/app/store/games.state';
+import { AppState, GameState } from 'src/app/store/games.state';
 
 @Component({
   selector: 'app-game-page',
@@ -19,49 +20,76 @@ import { AppState } from 'src/app/store/games.state';
   styleUrls: ['./game-page.component.css'],
 })
 export class GamePageComponent implements OnInit, OnDestroy {
-  game?: Game;
-  error?: string;
   @ViewChild('playerName') playerNameInput!: ElementRef;
-  subscriptions: Subscription = Subscription.EMPTY;
+
+  gameState: GameState = {};
+  storeSubscription = Subscription.EMPTY;
+  idSubscription = Subscription.EMPTY;
 
   constructor(
-    // private gamesService: GamesService,
     private activatedRoute: ActivatedRoute,
     private gamesManager: GamesManagerService,
     private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions = this.subscriptions = this.store
+    this.storeSubscription = this.store
       .select('gameState')
-      .subscribe((state) => {
-        console.log(state);
-        this.game = state.currentGame;
-        this.error = state.error;
-      });
+      .subscribe((state) => (this.gameState = state));
 
-    this.subscriptions.add(
-      this.activatedRoute.paramMap.subscribe((params) => {
-        const gameId = params.get('gameId');
-        if (gameId) {
-          this.gamesManager.initGame(gameId);
-        }
-      })
-    );
+    this.idSubscription = this.activatedRoute.paramMap.subscribe((params) => {
+      const gameId = params.get('gameId');
+      if (gameId) {
+        this.gamesManager.joinGame(gameId);
+      }
+    });
+  }
+
+  get game(): Game | undefined {
+    return this.gameState.currentGame;
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.storeSubscription.unsubscribe();
+    this.idSubscription.unsubscribe();
     this.gamesManager.leaveGame();
   }
 
-  joinGame(playerPosition: number): void {
+  addPlayer(playerPosition: number): void {
     const playerName = this.playerNameInput.nativeElement.value;
     if (this.game && playerName)
-      this.gamesManager.joinGame(this.game.id, playerPosition, playerName);
+      this.gamesManager.addPlayer(this.game.id, playerPosition, playerName);
+  }
+
+  getPlayerInfo(position: number): {
+    player?: Player;
+    playerHole?: PlayerHole;
+    position: number;
+  } {
+    const player = this.game?.players?.[position];
+    const playerHole =
+      player &&
+      this.gameState.playerHoles &&
+      this.gameState.playerHoles.find(
+        (hole) => hole.playerId == player.playerId
+      );
+
+    return {
+      player,
+      playerHole,
+      position,
+    };
   }
 
   startGame(): void {
     if (this.game) this.gamesManager.startGame(this.game.id);
+  }
+
+  progressGame(): void {
+    if (this.game) this.gamesManager.progressGame(this.game.id);
+  }
+
+  restartGame(): void {
+    if (this.game) this.gamesManager.restartGame(this.game.id);
   }
 }

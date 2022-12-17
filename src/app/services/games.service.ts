@@ -4,9 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Game } from '../models/game.model';
 
-@Injectable({
-  providedIn: 'root',
-})
 class GamesService {
   private baseApiUrl: string = environment.baseApiUrl;
 

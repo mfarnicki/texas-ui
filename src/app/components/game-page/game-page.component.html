@@ -2,7 +2,7 @@
   <h1 class="mb-3">Game number {{ game?.id }}</h1>
 
   <div class="row">
-    <div class="form-container col-3 my-2">
+    <div class="form-container col-sm-3 my-2">
       <label for="playerName" class="form-label">Player name:</label>
       <input
         #playerName
@@ -17,46 +17,41 @@
   <div class="row">
     <div class="col-6">
       <app-player-card
-        [position]="0"
-        [player]="game?.players?.[0]"
-        (joinEvent)="joinGame(0)"
+        [playerInfo]="getPlayerInfo(0)"
+        (addPlayerEvent)="addPlayer(0)"
       ></app-player-card>
     </div>
     <div class="col-6">
       <app-player-card
-        [position]="1"
-        [player]="game?.players?.[1]"
-        (joinEvent)="joinGame(1)"
+        [playerInfo]="getPlayerInfo(1)"
+        (addPlayerEvent)="addPlayer(1)"
       ></app-player-card>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row my-2">
     <div class="col-12">
-      <h1>Dealer box</h1>
-
-      <button class="btn btn-success" (click)="startGame()">Start game</button>
+      <app-dealer-table
+        [game]="game"
+        (startGameEvent)="startGame()"
+        (progressGameEvent)="progressGame()"
+        (restartGameEvent)="restartGame()"
+      ></app-dealer-table>
     </div>
   </div>
 
   <div class="row">
     <div class="col-6">
       <app-player-card
-        [position]="2"
-        [player]="game?.players?.[2]"
-        (joinEvent)="joinGame(2)"
+        [playerInfo]="getPlayerInfo(2)"
+        (addPlayerEvent)="addPlayer(2)"
       ></app-player-card>
     </div>
     <div class="col-6">
       <app-player-card
-        [position]="3"
-        [player]="game?.players?.[3]"
-        (joinEvent)="joinGame(3)"
+        [playerInfo]="getPlayerInfo(3)"
+        (addPlayerEvent)="addPlayer(3)"
       ></app-player-card>
     </div>
-  </div>
-
-  <div class="alert alert-danger" role="alert" *ngIf="error">
-    {{ error }}
   </div>
 </div>

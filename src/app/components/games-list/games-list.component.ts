@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Game } from 'src/app/models/game.model';
 import { GamesManagerService } from 'src/app/services/games-manager.service';
 
@@ -16,10 +15,7 @@ export class GamesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gamesManager.startConnection().then(() => {
-      this.gamesManager.subscribeListeners();
-      this.gamesManager.listGames();
-    });
+    this.gamesManager.listGames();
   }
 
   addNewGame(): void {

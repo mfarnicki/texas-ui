@@ -3,11 +3,13 @@ import {
   RESET_GAME,
   SET_ERROR,
   UPDATE_GAME,
+  UPDATE_PLAYER,
 } from './games.action';
 import { GameState } from './games.state';
 
 const defaultState: GameState = {
   currentGame: undefined,
+  playerHoles: [],
   error: undefined,
 };
 
@@ -15,6 +17,8 @@ export function gamesReducer(
   state: GameState = defaultState,
   action: GamesAction
 ): GameState {
+  console.log(action);
+
   switch (action.type) {
     case UPDATE_GAME:
       return {
@@ -27,6 +31,7 @@ export function gamesReducer(
       return {
         ...state,
         currentGame: undefined,
+        playerHoles: [],
         error: undefined,
       };
 
@@ -34,6 +39,12 @@ export function gamesReducer(
       return {
         ...state,
         error: action.payload,
+      };
+
+    case UPDATE_PLAYER:
+      return {
+        ...state,
+        playerHoles: action.payload,
       };
 
     default:

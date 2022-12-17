@@ -2,15 +2,15 @@ import { Component, Input } from '@angular/core';
 import { Card, Suit } from '../../models/card.model';
 
 @Component({
-  selector: 'app-deck-card[card]',
+  selector: 'app-deck-card',
   templateUrl: './deck-card.component.html',
   styleUrls: ['./deck-card.component.css'],
 })
 export class DeckCardComponent {
-  @Input() card!: Card;
+  @Input() card?: Card;
 
   get cardColor(): string {
-    switch (this.card.suit) {
+    switch (this.card?.suit) {
       case Suit.Heart:
       case Suit.Diamond:
         return 'red';
@@ -23,6 +23,10 @@ export class DeckCardComponent {
   }
 
   get cardValue(): string {
+    if (!this.card) {
+      return '';
+    }
+
     switch (this.card.value) {
       case 1:
         return 'A';
@@ -42,7 +46,7 @@ export class DeckCardComponent {
   }
 
   get cardSuit(): string {
-    switch (this.card.suit) {
+    switch (this.card?.suit) {
       case Suit.Spade:
         return '&spades;';
 
@@ -54,8 +58,9 @@ export class DeckCardComponent {
 
       case Suit.Club:
         return '&clubs;';
-    }
 
-    return 'X';
+      default:
+        return '';
+    }
   }
 }
