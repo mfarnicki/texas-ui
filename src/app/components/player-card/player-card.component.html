@@ -1,4 +1,12 @@
 <div class="card">
+  <div class="card-header" [ngSwitch]="playerInfo.player?.playerStatus">
+    <p class="text-success" *ngSwitchCase="playerStatusEnum.Winner">Winner!</p>
+    <p class="text-danger" *ngSwitchCase="playerStatusEnum.Waiting">
+      Waiting...
+    </p>
+    <p *ngSwitchDefault>Player status</p>
+  </div>
+
   <div class="card-body">
     <h5 class="card-title">{{ playerName }}</h5>
     <app-deck-card [card]="playerInfo.playerHole?.holeCard1"></app-deck-card>

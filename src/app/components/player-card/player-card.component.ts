@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PlayerHole } from 'src/app/models/player-hole';
-import { Player } from 'src/app/models/player.model';
+import { Player, PlayerStatus } from 'src/app/models/player.model';
 
 @Component({
   selector: 'app-player-card',
@@ -8,6 +8,7 @@ import { Player } from 'src/app/models/player.model';
   styleUrls: ['./player-card.component.css'],
 })
 export class PlayerCardComponent {
+  playerStatusEnum: typeof PlayerStatus = PlayerStatus;
   @Input() playerInfo!: {
     player?: Player;
     playerHole?: PlayerHole;

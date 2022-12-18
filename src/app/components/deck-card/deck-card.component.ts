@@ -28,9 +28,6 @@ export class DeckCardComponent {
     }
 
     switch (this.card.value) {
-      case 1:
-        return 'A';
-
       case 11:
         return 'J';
 
@@ -39,6 +36,9 @@ export class DeckCardComponent {
 
       case 13:
         return 'K';
+
+      case 14:
+        return 'A';
 
       default:
         return this.card.value.toString();
