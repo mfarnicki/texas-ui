@@ -1,15 +1,35 @@
 div.deck-card {
   width: 80px;
-  height: 100px;
-}
-
-div.deck-card span.suit {
-  font-size: 3rem;
-  line-height: 0.6;
+  height: 120px;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
 }
 
 div.deck-card span.value {
-  font-size: 3.5rem;
+  font-size: 3rem;
+  line-height: 2.5rem;
   font-weight: bold;
-  line-height: 1.5;
+}
+
+div.deck-card span.suit {
+  font-size: 7rem;
+  position: absolute;
+  top: -5px;
+  left: 15px;
+}
+
+div.deck-card.back {
+  background-image: url(../../../assets/card-back.png);
+}
+
+div.deck-card.front {
+  border: 3px solid rgb(64, 64, 64);
+  border-radius: 10px;
+  background: linear-gradient(
+    0deg,
+    rgb(220, 220, 220) 0%,
+    rgb(240, 240, 240) 25%,
+    rgb(255, 255, 255) 100%
+  );
 }
