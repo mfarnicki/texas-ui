@@ -2,6 +2,16 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .catch((err) => {
+    const errorMsgElement = document.querySelector('#errorMessage');
+    const loader = document.querySelector('#loader');
+    loader?.remove();
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+    let message = 'Application initialization failed';
+    if (errorMsgElement) {
+      message += ': ' + err;
+      errorMsgElement.textContent = message;
+    }
+  });

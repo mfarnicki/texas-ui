@@ -13,7 +13,6 @@ import { DeckCardComponent } from './components/deck-card/deck-card.component';
 import { PlayerCardComponent } from './components/player-card/player-card.component';
 import { DealerTableComponent } from './components/dealer-table/dealer-table.component';
 import { GamesManagerService } from './services/games-manager.service';
-import { gamesReducer } from './store/games.reducer';
 import { reducerMap } from './store/games.state';
 
 function initializeSignalR(gamesManagerService: GamesManagerService) {
