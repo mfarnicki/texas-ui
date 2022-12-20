@@ -5,6 +5,8 @@ export interface Game {
   id: string;
   players: Player[];
   status: GameStatus;
+  waitingForId: string;
+  dealerId: string;
   communityCards: Card[];
 }
 

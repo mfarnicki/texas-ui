@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Game, GameStatus } from 'src/app/models/game.model';
 import { PlayerHole } from 'src/app/models/player-hole';
 import { Player, PlayerStatus } from 'src/app/models/player.model';
 
@@ -8,7 +9,9 @@ import { Player, PlayerStatus } from 'src/app/models/player.model';
   styleUrls: ['./player-card.component.css'],
 })
 export class PlayerCardComponent {
+  gameStatusEnum: typeof GameStatus = GameStatus;
   playerStatusEnum: typeof PlayerStatus = PlayerStatus;
+  @Input() game?: Game;
   @Input() playerInfo!: {
     player?: Player;
     playerHole?: PlayerHole;

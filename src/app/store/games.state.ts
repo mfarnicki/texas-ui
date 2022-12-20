@@ -10,7 +10,7 @@ export interface AppState {
 
 export interface GameState {
   currentGame?: Game;
-  playerHoles?: PlayerHole[];
+  playerHoles: PlayerHole[];
   error?: string;
 }
 

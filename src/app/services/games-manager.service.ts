@@ -84,7 +84,7 @@ export class GamesManagerService {
     this.hubConnection.send('ProgressGame', gameId);
   }
 
-  restartGame(gameId: string) {
-    this.hubConnection.send('RestartGame', gameId);
+  nextRound(gameId: string) {
+    this.hubConnection.send('NextRound', gameId);
   }
 }

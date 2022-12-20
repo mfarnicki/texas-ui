@@ -1,12 +1,5 @@
 <div class="card" *ngIf="game">
-  <div class="card-body">
-    <app-deck-card
-      *ngFor="let communityCard of game.communityCards"
-      [card]="communityCard"
-    ></app-deck-card>
-  </div>
-
-  <div class="card-footer" [ngSwitch]="game.status">
+  <div class="card-header" [ngSwitch]="game.status">
     <button
       class="btn btn-primary"
       *ngSwitchCase="statusEnum.Idle"
@@ -16,12 +9,19 @@
     </button>
     <div *ngSwitchCase="statusEnum.Final">
       <span>Game finished</span>
-      <button class="btn btn-danger mx-1" (click)="restartGame()">
-        Play again
+      <button class="btn btn-danger mx-1" (click)="nextRound()">
+        Next round
       </button>
     </div>
     <button class="btn btn-secondary" *ngSwitchDefault (click)="progressGame()">
       Progress game
     </button>
+  </div>
+
+  <div class="card-body">
+    <app-deck-card
+      *ngFor="let communityCard of game.communityCards"
+      [card]="communityCard"
+    ></app-deck-card>
   </div>
 </div>

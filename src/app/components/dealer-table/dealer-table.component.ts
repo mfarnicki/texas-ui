@@ -11,7 +11,7 @@ export class DealerTableComponent {
   @Input() game?: Game;
   @Output() startGameEvent = new EventEmitter();
   @Output() progressGameEvent = new EventEmitter();
-  @Output() restartGameEvent = new EventEmitter();
+  @Output() nextRoundEvent = new EventEmitter();
 
   startGame(): void {
     this.startGameEvent.emit();
@@ -21,7 +21,7 @@ export class DealerTableComponent {
     this.progressGameEvent.emit();
   }
 
-  restartGame(): void {
-    this.restartGameEvent.emit();
+  nextRound(): void {
+    this.nextRoundEvent.emit();
   }
 }

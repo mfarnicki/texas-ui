@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { Game } from 'src/app/models/game.model';
 import { GamesManagerService } from 'src/app/services/games-manager.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-games-list',
@@ -8,14 +11,22 @@ import { GamesManagerService } from 'src/app/services/games-manager.service';
   styleUrls: ['./games-list.component.css'],
 })
 export class GamesListComponent implements OnInit {
-  gamesList: Game[] = [];
+  gamesList$: Observable<Game[]>;
+  playerName?: string;
+  edit: boolean = true;
 
-  constructor(private gamesManager: GamesManagerService) {
-    this.gamesManager.allGames$.subscribe((games) => (this.gamesList = games));
+  constructor(
+    private gamesManager: GamesManagerService,
+    private storage: StorageService,
+    private toast: ToastrService
+  ) {
+    this.gamesList$ = this.gamesManager.allGames$.asObservable();
   }
 
   ngOnInit(): void {
     this.gamesManager.listGames();
+    this.playerName = this.storage.getPlayerName() || undefined;
+    this.edit = !this.playerName;
   }
 
   addNewGame(): void {
@@ -24,5 +35,19 @@ export class GamesListComponent implements OnInit {
 
   deleteGame(gameId: string): void {
     this.gamesManager.deleteGame(gameId);
+  }
+
+  changeName() {
+    this.edit = true;
+    this.storage.clearPlayerName();
+  }
+
+  addPlayer() {
+    if (!this.playerName) {
+      this.toast.error("Player name can't be empty");
+    } else {
+      this.storage.setPlayerName(this.playerName);
+      this.edit = false;
+    }
   }
 }

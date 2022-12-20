@@ -1,8 +1,42 @@
 <div class="container my-5">
-  <h1 class="mb-3">Games list</h1>
+  <h1 class="mb-3">Texas Hold'em games</h1>
 
-  <div class="row" *ngIf="gamesList.length > 0">
-    <div class="col-sm-4 mb-3" *ngFor="let game of gamesList">
+  <div class="row mb-2">
+    <div class="col-12" *ngIf="!edit; else noPlayer">
+      <h3>Welcome {{ playerName }}</h3>
+      <button class="btn btn-secondary" (click)="changeName()">
+        Change name
+      </button>
+    </div>
+
+    <ng-template #noPlayer>
+      <p>
+        To create or join any Texas Hold'em game, choose your player name first!
+      </p>
+      <form #playerNameForm="ngForm" (ngSubmit)="addPlayer()">
+        <div class="form-group row">
+          <label for="playerName" class="col-form-label col-2"
+            >Player name:</label
+          >
+          <div class="col-4">
+            <input
+              id="playerName"
+              name="playerName"
+              type="text"
+              class="form-control"
+              required
+              [(ngModel)]="playerName"
+            />
+          </div>
+        </div>
+
+        <button class="btn btn-primary my-1" type="submit">Save</button>
+      </form>
+    </ng-template>
+  </div>
+
+  <div class="row" *ngIf="gamesList$ | async as games; else loading">
+    <div class="col-sm-4 mb-3" *ngFor="let game of games">
       <app-game-card
         [game]="game"
         (deleteEvent)="deleteGame($event)"
@@ -10,7 +44,9 @@
     </div>
   </div>
 
-  <p *ngIf="gamesList.length === 0">No games found</p>
+  <ng-template #loading>
+    <p>Loading games...</p>
+  </ng-template>
 
   <div class="row mt-3">
     <div class="col-12">

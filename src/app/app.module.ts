@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { PlayerCardComponent } from './components/player-card/player-card.compon
 import { DealerTableComponent } from './components/dealer-table/dealer-table.component';
 import { GamesManagerService } from './services/games-manager.service';
 import { reducerMap } from './store/games.state';
+import { FormsModule } from '@angular/forms';
 
 function initializeSignalR(gamesManagerService: GamesManagerService) {
   return () =>
@@ -36,10 +38,12 @@ function initializeSignalR(gamesManagerService: GamesManagerService) {
     DealerTableComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     StoreModule.forRoot(reducerMap),
+    ToastrModule.forRoot(),
   ],
   providers: [
     {

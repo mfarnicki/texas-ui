@@ -1,10 +1,17 @@
 <div class="card">
-  <div class="card-header" [ngSwitch]="playerInfo.player?.playerStatus">
-    <p class="text-success" *ngSwitchCase="playerStatusEnum.Winner">Winner!</p>
-    <p class="text-danger" *ngSwitchCase="playerStatusEnum.Waiting">
-      Waiting...
-    </p>
-    <p *ngSwitchDefault>Player status</p>
+  <div class="card-header">
+    <button
+      class="btn btn-primary"
+      *ngIf="!playerInfo.player && game?.status === gameStatusEnum.Idle"
+      (click)="addPlayer()"
+    >
+      Join
+    </button>
+    <img
+      src="../../../assets/dealer.png"
+      class="dealer-button"
+      *ngIf="playerInfo.player && playerInfo.player.playerId === game?.dealerId"
+    />
   </div>
 
   <div class="card-body">
@@ -13,13 +20,11 @@
     <app-deck-card [card]="playerInfo.playerHole?.holeCard2"></app-deck-card>
   </div>
 
-  <div class="card-footer">
-    <button
-      class="btn btn-primary"
-      *ngIf="!playerInfo.player"
-      (click)="addPlayer()"
-    >
-      Join
-    </button>
+  <div class="card-footer" [ngSwitch]="playerInfo.player?.playerStatus">
+    <p class="text-success" *ngSwitchCase="playerStatusEnum.Winner">Winner!</p>
+    <p class="text-danger" *ngSwitchCase="playerStatusEnum.Waiting">
+      Waiting...
+    </p>
+    <p *ngSwitchDefault>Player status</p>
   </div>
 </div>
