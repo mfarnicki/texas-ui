@@ -35,7 +35,7 @@ export class GamesManagerService {
   }
 
   public subscribeListeners() {
-    this.hubConnection.on('Error', (error: string) =>
+    this.hubConnection.on('ErrorState', (error: string) =>
       this.store.dispatch(new GamesActions.SetError(error))
     );
 

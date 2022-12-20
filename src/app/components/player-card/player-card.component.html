@@ -1,5 +1,8 @@
 <div class="card">
-  <div class="card-header">
+  <div
+    class="card-header d-flex flex-row justify-content-between align-items-end"
+  >
+    <h5 class="card-title">{{ playerName }}</h5>
     <button
       class="btn btn-primary"
       *ngIf="!playerInfo.player && game?.status === gameStatusEnum.Idle"
@@ -15,7 +18,6 @@
   </div>
 
   <div class="card-body">
-    <h5 class="card-title">{{ playerName }}</h5>
     <app-deck-card [card]="playerInfo.playerHole?.holeCard1"></app-deck-card>
     <app-deck-card [card]="playerInfo.playerHole?.holeCard2"></app-deck-card>
   </div>

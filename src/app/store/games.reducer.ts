@@ -45,6 +45,7 @@ export function gamesReducer(
       return {
         ...state,
         playerHoles: action.payload,
+        error: undefined,
       };
 
     default:

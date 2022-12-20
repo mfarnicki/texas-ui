@@ -9,6 +9,7 @@ import { Player } from 'src/app/models/player.model';
 import { GamesManagerService } from 'src/app/services/games-manager.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { AppState, GameState } from 'src/app/store/games.state';
+import * as GameActions from 'src/app/store/games.action';
 
 @Component({
   selector: 'app-game-page',
@@ -62,8 +63,10 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
   addPlayer(playerPosition: number): void {
     const playerName = this.localStorage.getPlayerName();
-    if (this.game && playerName)
+    if (this.game && playerName) {
+      this.store.dispatch(new GameActions.UpdatePlayer([]));
       this.gamesManager.addPlayer(this.game.id, playerPosition, playerName);
+    }
   }
 
   getPlayerInfo(position: number): {
