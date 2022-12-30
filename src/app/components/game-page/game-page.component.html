@@ -4,16 +4,16 @@
   <div class="row">
     <div class="col-6">
       <app-player-card
-        [game]="game"
-        [playerInfo]="getPlayerInfo(0)"
+        [position]="0"
         (addPlayerEvent)="addPlayer(0)"
+        (playerMoveEvent)="playerMove($event)"
       ></app-player-card>
     </div>
     <div class="col-6">
       <app-player-card
-        [game]="game"
-        [playerInfo]="getPlayerInfo(1)"
+        [position]="1"
         (addPlayerEvent)="addPlayer(1)"
+        (playerMoveEvent)="playerMove($event)"
       ></app-player-card>
     </div>
   </div>
@@ -32,16 +32,16 @@
   <div class="row">
     <div class="col-6">
       <app-player-card
-        [game]="game"
-        [playerInfo]="getPlayerInfo(2)"
+        [position]="2"
         (addPlayerEvent)="addPlayer(2)"
+        (playerMoveEvent)="playerMove($event)"
       ></app-player-card>
     </div>
     <div class="col-6">
       <app-player-card
-        [game]="game"
-        [playerInfo]="getPlayerInfo(3)"
+        [position]="3"
         (addPlayerEvent)="addPlayer(3)"
+        (playerMoveEvent)="playerMove($event)"
       ></app-player-card>
     </div>
   </div>

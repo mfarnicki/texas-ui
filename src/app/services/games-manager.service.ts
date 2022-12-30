@@ -4,7 +4,9 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Game } from '../models/game.model';
-import { PlayerHole } from '../models/player-hole';
+import { PlayerHole } from '../models/player-hole.model';
+import { PlayerMove } from '../models/player-move.model';
+import { Player } from '../models/player.model';
 import * as GamesActions from '../store/games.action';
 import { AppState } from '../store/games.state';
 
@@ -68,8 +70,14 @@ export class GamesManagerService {
     this.hubConnection.send('JoinGame', gameId);
   }
 
-  addPlayer(gameId: string, playerPosition: number, playerName: string) {
-    this.hubConnection.send('AddPlayer', gameId, playerPosition, playerName);
+  addPlayer(gameId: string, playerPosition: number, player: Player) {
+    this.hubConnection
+      .invoke('AddPlayer', gameId, playerPosition, player)
+      .then((response: string | null) =>
+        this.store.dispatch(new GamesActions.SetPlayer(response))
+      );
+
+    // this.hubConnection.send('AddPlayer', gameId, playerPosition, player);
   }
 
   leaveGame() {
@@ -82,6 +90,10 @@ export class GamesManagerService {
 
   progressGame(gameId: string) {
     this.hubConnection.send('ProgressGame', gameId);
+  }
+
+  playerMove(gameId: string, playerMove: PlayerMove) {
+    this.hubConnection.send('PlayerMove', gameId, playerMove);
   }
 
   nextRound(gameId: string) {

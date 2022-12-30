@@ -4,12 +4,12 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Game } from 'src/app/models/game.model';
-import { PlayerHole } from 'src/app/models/player-hole';
-import { Player } from 'src/app/models/player.model';
+import { Player, PlayerStatus } from 'src/app/models/player.model';
 import { GamesManagerService } from 'src/app/services/games-manager.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { AppState, GameState } from 'src/app/store/games.state';
 import * as GameActions from 'src/app/store/games.action';
+import { PlayerMove } from 'src/app/models/player-move.model';
 
 @Component({
   selector: 'app-game-page',
@@ -46,6 +46,8 @@ export class GamePageComponent implements OnInit, OnDestroy {
     this.idSubscription = this.activatedRoute.paramMap.subscribe((params) => {
       const gameId = params.get('gameId');
       if (gameId) {
+        // clear store before joining
+        this.store.dispatch(new GameActions.ResetGame());
         this.gamesManager.joinGame(gameId);
       }
     });
@@ -64,28 +66,22 @@ export class GamePageComponent implements OnInit, OnDestroy {
   addPlayer(playerPosition: number): void {
     const playerName = this.localStorage.getPlayerName();
     if (this.game && playerName) {
+      const player: Player = {
+        name: playerName,
+        chips: 1000,
+        status: PlayerStatus.Idle,
+        id: '',
+      };
+
       this.store.dispatch(new GameActions.UpdatePlayer([]));
-      this.gamesManager.addPlayer(this.game.id, playerPosition, playerName);
+      this.gamesManager.addPlayer(this.game.id, playerPosition, player);
     }
   }
 
-  getPlayerInfo(position: number): {
-    player?: Player;
-    playerHole?: PlayerHole;
-    position: number;
-  } {
-    const player = this.game?.players?.[position];
-    const playerHole =
-      player &&
-      this.gameState.playerHoles.find(
-        (hole) => hole?.playerId == player.playerId
-      );
-
-    return {
-      player,
-      playerHole,
-      position,
-    };
+  playerMove(playerMove: PlayerMove): void {
+    if (this.game) {
+      this.gamesManager.playerMove(this.game.id, playerMove);
+    }
   }
 
   startGame(): void {

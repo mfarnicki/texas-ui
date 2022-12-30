@@ -3,30 +3,53 @@
     class="card-header d-flex flex-row justify-content-between align-items-end"
   >
     <h5 class="card-title">{{ playerName }}</h5>
-    <button
-      class="btn btn-primary"
-      *ngIf="!playerInfo.player && game?.status === gameStatusEnum.Idle"
-      (click)="addPlayer()"
-    >
-      Join
-    </button>
-    <img
-      src="../../../assets/dealer.png"
-      class="dealer-button"
-      *ngIf="playerInfo.player && playerInfo.player.playerId === game?.dealerId"
-    />
+    <div>
+      <button
+        class="btn btn-primary"
+        *ngIf="!player && game?.status === gameStatusEnum.Idle"
+        (click)="addPlayer()"
+      >
+        Join
+      </button>
+      <div *ngIf="playerTurn">
+        <button
+          class="btn btn-success mr-1"
+          (click)="playerMove(moveTypeEnum.Call)"
+        >
+          Call
+        </button>
+        <button
+          class="btn btn-danger mr-1"
+          (click)="playerMove(moveTypeEnum.Fold)"
+        >
+          Fold
+        </button>
+      </div>
+
+      <span
+        *ngIf="player && player.id === game?.dealerId"
+        class="dealer-button"
+      >
+        &spades;
+      </span>
+    </div>
   </div>
 
   <div class="card-body">
-    <app-deck-card [card]="playerInfo.playerHole?.holeCard1"></app-deck-card>
-    <app-deck-card [card]="playerInfo.playerHole?.holeCard2"></app-deck-card>
+    <app-deck-card [card]="playerHole?.holeCard1"></app-deck-card>
+    <app-deck-card [card]="playerHole?.holeCard2"></app-deck-card>
   </div>
 
-  <div class="card-footer" [ngSwitch]="playerInfo.player?.playerStatus">
-    <p class="text-success" *ngSwitchCase="playerStatusEnum.Winner">Winner!</p>
-    <p class="text-danger" *ngSwitchCase="playerStatusEnum.Waiting">
-      Waiting...
-    </p>
-    <p *ngSwitchDefault>Player status</p>
+  <div class="card-footer">
+    <div [ngSwitch]="player?.status">
+      <p class="text-success" *ngSwitchCase="playerStatusEnum.Winner">
+        Winner!
+      </p>
+      <p class="text-danger" *ngSwitchCase="playerStatusEnum.Waiting">
+        Waiting...
+      </p>
+      <p *ngSwitchDefault>Player status</p>
+    </div>
+    <p>Player chips: {{ player?.chips }}</p>
   </div>
 </div>

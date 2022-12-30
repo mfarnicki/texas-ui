@@ -1,11 +1,14 @@
 export interface Player {
-  playerId: string;
-  playerName: string;
-  playerStatus: PlayerStatus;
+  id: string;
+  name: string;
+  status: PlayerStatus;
+  chips: number;
 }
 
 export enum PlayerStatus {
   Idle = 0,
   Waiting = 1,
-  Winner = 2,
+  WaitingFor = 2,
+  Folded = 3,
+  Winner = 4,
 }

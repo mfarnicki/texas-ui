@@ -8,6 +8,7 @@ export interface Game {
   waitingForId: string;
   dealerId: string;
   communityCards: Card[];
+  currentPot: number;
 }
 
 export enum GameStatus {

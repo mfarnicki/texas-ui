@@ -2,6 +2,7 @@ import {
   GamesAction,
   RESET_GAME,
   SET_ERROR,
+  SET_PLAYER,
   UPDATE_GAME,
   UPDATE_PLAYER,
 } from './games.action';
@@ -31,6 +32,7 @@ export function gamesReducer(
       return {
         ...state,
         currentGame: undefined,
+        currentPlayerId: undefined,
         playerHoles: [],
         error: undefined,
       };
@@ -45,6 +47,13 @@ export function gamesReducer(
       return {
         ...state,
         playerHoles: action.payload,
+        error: undefined,
+      };
+
+    case SET_PLAYER:
+      return {
+        ...state,
+        currentPlayerId: action.payload || undefined,
         error: undefined,
       };
 
